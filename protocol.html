@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Echosoul - بروتوكول الأمان والإرث الرقمي</title>
+    <title>Echosoul - بروتوكول الأمان والأوصياء</title>
     <style>
         :root {
             --bg-color: #0f1115;
@@ -27,101 +27,90 @@
             padding: 20px;
         }
         .container {
-            max-width: 800px;
+            max-width: 700px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 10px;
         }
         header {
-            text-align: center;
-            margin-bottom: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
         }
         header h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--text-main);
-        }
-        header h1 span {
+            font-size: 1.2rem;
             color: var(--accent-color);
         }
-        header p {
-            font-size: 1.1rem;
+        header a {
             color: var(--text-muted);
-            max-width: 650px;
-            margin: 0 auto;
+            text-decoration: none;
+            font-size: 0.85rem;
         }
-        .protocol-steps {
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+        .card h3 {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+        .card p, .card li {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        ul {
+            margin-right: 20px;
+        }
+        .guardian-form {
             display: flex;
             flex-direction: column;
-            gap: 25px;
-            margin-bottom: 50px;
+            gap: 12px;
+            margin-top: 15px;
         }
-        .step-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 25px;
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-        }
-        .step-card::before {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background-color: var(--accent-color);
-        }
-        .step-number {
-            font-size: 0.85rem;
-            color: var(--accent-color);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-            display: block;
-        }
-        .step-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 12px;
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            background-color: #0f1115;
+            border: 1px solid #374151;
+            border-radius: 8px;
             color: var(--text-main);
+            outline: none;
+            font-size: 0.9rem;
+            text-align: right;
         }
-        .step-card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
+        .form-control:focus {
+            border-color: var(--accent-color);
         }
-        .security-badge {
-            background-color: var(--card-bg);
-            border: 1px solid var(--accent-color);
-            padding: 25px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 40px;
+        .btn {
+            background-color: var(--accent-color);
+            color: #000;
+            padding: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
         }
-        .security-badge h3 {
-            color: var(--accent-color);
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-        .security-badge p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
+        .btn:hover {
+            background-color: var(--accent-hover);
         }
         .nav-links {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 25px;
+            font-size: 0.85rem;
         }
         .nav-links a {
             color: var(--accent-color);
             text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: color 0.3s;
-        }
-        .nav-links a:hover {
-            color: var(--accent-hover);
-            text-decoration: underline;
+            margin: 0 10px;
         }
     </style>
 </head>
@@ -129,38 +118,57 @@
 
     <div class="container">
         <header>
-            <h1>بروتوكول الأمان و<span>الإرث الرقمي</span></h1>
-            <p>في Echosoul، نؤمن بأن ذكرياتك وصوتك مقدسة. لقد صممنا نظاماً أمنياً متعدد الطبقات لضمان الخصوصية التامة والتحقق الدقيق قبل تفعيل أي إرث رقمي.</p>
+            <h1>Echosoul | بروتوكول الأمان</h1>
+            <a href="index.html">← الرئيسية</a>
         </header>
 
-        <div class="protocol-steps">
-            <!-- Step 1 -->
-            <div class="step-card">
-                <span class="step-number">المرحلة الأولى</span>
-                <h3>مراقبة النشاط التلقائية (Inactivity Trigger)</h3>
-                <p>يقوم مالك الحساب بتحديد فترة زمنية للاستشعار (مثل 6 أشهر أو سنة). يرسل النظام دورياً إشعارات وتنبيهات سرية عبر البريد الإلكتروني والهاتف للتأكد من استمرار النشاط وسلامة المستخدم دون أي إزعاج.</p>
-            </div>
-
-            <!-- Step 2 -->
-            <div class="step-card">
-                <span class="step-number">المرحلة الثانية</span>
-                <h3>موافقة الأوصياء المعينين (Guardian Verification)</h3>
-                <p>عند انقضاء فترة عدم النشاط دون استجابة، يتواصل النظام مع "الأوصياء الموثوقين" الذين حددهم المالك مسبقاً (كالأبناء أو الشركاء). يتطلب تفعيل الحساب مصادقة وتأكيد عدد محدد من الأوصياء لمنع أي وصول غير مرغوب فيه.</p>
-            </div>
-
-            <!-- Step 3 -->
-            <div class="step-card">
-                <span class="step-number">المرحلة الثالثة</span>
-                <h3>التحقق القانوني والرسمي (Official Validation)</h3>
-                <p>كخطوة أمان نهائية متوافقة تماماً مع المعايير العالمية الصارمة (مثل GDPR و CCPA)، يتم توفير آلية مشفرة لرفع أو ربط المستندات الرسمية المعتمدة (مثل شهادة الوفاة)، ليتحول الحساب بعدها حصرياً إلى "وضع الإرث النشط".</p>
-            </div>
+        <!-- Security Concept Card -->
+        <div class="card">
+            <h3>🛡️ كيف نحمي إرثك الرقمي؟</h3>
+            <p>في Echosoul، نؤمن بأن ذكرياتك ووصاياك هي أثمن ما تملك. لذلك يعتمد نظامنا على مبدأين أساسيين للحماية:</p>
+            <ul>
+                <li><strong>الكبسولات الزمنية المستقلة:</strong> تفتح تلقائياً عند حلول التاريخ المحدد مسبقاً (مثل عام 2030) دون تدخل بشري.</li>
+                <li><strong>بروتوكول الأوصياء لما بعد الوفاة:</strong> للملفات الخاصة التي تفتح بعد الوفاة، يشترط النظام موافقة وتأكيد ثنائي من الأوصياء الموثوقين المعتمدين لديك.</li>
+            </ul>
         </div>
 
-        <!-- Security Badge -->
-        <div class="security-badge">
-            <h3>التشفير العسكري والخصوصية المطلقة</h3>
-            <p>جميع البيانات الصوتية وقصص الحياة مشفرة من النهاية إلى النهاية (End-to-End Encryption). لا يتم مشاركة بياناتك أو بيعها لأي طرف ثالث نهائياً.</p>
+        <!-- Guardian Setup Card -->
+        <div class="card">
+            <h3>👥 تعيين أوصياء الخزينة</h3>
+            <p>أدخل بيانات الأشخاص الموثوقين (مثل الأبناء أو الأقارب المقربين) الذين سيتولون التحقق عند الحاجة:</p>
+            <div class="guardian-form">
+                <input type="text" id="guardianName" class="form-control" placeholder="اسم الوصي الكريم...">
+                <input type="email" id="guardianEmail" class="form-control" placeholder="البريد الإلكتروني للوصي...">
+                <button class="btn" onclick="saveGuardian()">حفظ الوصي في النظام المحلي</button>
+            </div>
+            <div id="guardianStatus" style="margin-top: 15px; font-size: 0.85rem; color: var(--accent-color);"></div>
         </div>
 
         <div class="nav-links">
-            <a href="index
+            <a href="index.html">الرئيسية</a> | 
+            <a href="dashboard.html">الخزينة الزمنية</a>
+        </div>
+    </div>
+
+    <script>
+        function saveGuardian() {
+            const name = document.getElementById('guardianName').value.trim();
+            const email = document.getElementById('guardianEmail').value.trim();
+
+            if (!name || !email) {
+                alert('الرجاء إدخال اسم البريد الإلكتروني للوصي.');
+                return;
+            }
+
+            const guardianData = { name, email, date: new Date().toLocaleDateString('ar-SA') };
+            localStorage.setItem('echosoul_guardian', JSON.stringify(guardianData));
+
+            document.getElementById('guardianName').value = '';
+            document.getElementById('guardianEmail').value = '';
+
+            document.getElementById('guardianStatus').textContent = `تم بنجاح اعتماد الوصي: ${name} وتأمين الخزينة محلياً.`;
+        }
+    </script>
+
+</body>
+</html>
