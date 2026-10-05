@@ -24,10 +24,10 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             line-height: 1.7;
-            padding: 20px;
+            padding: 15px;
         }
         .container {
-            max-width: 700px;
+            max-width: 650px;
             margin: 0 auto;
             padding: 10px;
         }
@@ -40,29 +40,24 @@
             margin-bottom: 25px;
         }
         header h1 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--accent-color);
-        }
-        header a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.85rem;
         }
         .card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 22px;
+            padding: 20px;
             margin-bottom: 20px;
         }
         .card h3 {
             color: var(--accent-color);
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             margin-bottom: 12px;
         }
         .card p, .card li {
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-bottom: 10px;
         }
         ul {
@@ -102,15 +97,25 @@
         .btn:hover {
             background-color: var(--accent-hover);
         }
+        .saved-guardian {
+            background: #13151a;
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: var(--text-main);
+        }
         .nav-links {
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
             margin-top: 25px;
             font-size: 0.85rem;
         }
         .nav-links a {
             color: var(--accent-color);
             text-decoration: none;
-            margin: 0 10px;
         }
     </style>
 </head>
@@ -119,44 +124,49 @@
     <div class="container">
         <header>
             <h1>Echosoul | بروتوكول الأمان</h1>
-            <a href="index.html">← الرئيسية</a>
+            <a href="dashboard.html" style="color: var(--text-muted); text-decoration: none; font-size: 0.85rem;">← الخزينة</a>
         </header>
 
         <!-- Security Concept Card -->
         <div class="card">
-            <h3>🛡️ كيف نحمي إرثك الرقمي؟</h3>
-            <p>في Echosoul، نؤمن بأن ذكرياتك ووصاياك هي أثمن ما تملك. لذلك يعتمد نظامنا على مبدأين أساسيين للحماية:</p>
+            <h3>🛡️ معيار الحماية والأوصياء</h3>
+            <p>لضمان أعلى معايير الخصوصية لبياناتك ومحتواك المرئي والمسموع:</p>
             <ul>
-                <li><strong>الكبسولات الزمنية المستقلة:</strong> تفتح تلقائياً عند حلول التاريخ المحدد مسبقاً (مثل عام 2030) دون تدخل بشري.</li>
-                <li><strong>بروتوكول الأوصياء لما بعد الوفاة:</strong> للملفات الخاصة التي تفتح بعد الوفاة، يشترط النظام موافقة وتأكيد ثنائي من الأوصياء الموثوقين المعتمدين لديك.</li>
+                <li><strong>الكبسولات المؤقتة:</strong> تفتح تلقائياً عند انقضاء التاريخ المحدّد.</li>
+                <li><strong>بروتوكول الأوصياء:</strong> للملفات الخاصة بالوفاة، يشترط إجماع الأوصياء المعتمدين لفتح الكبسولة والإفراج عن محتواها.</li>
             </ul>
         </div>
 
         <!-- Guardian Setup Card -->
         <div class="card">
-            <h3>👥 تعيين أوصياء الخزينة</h3>
-            <p>أدخل بيانات الأشخاص الموثوقين (مثل الأبناء أو الأقارب المقربين) الذين سيتولون التحقق عند الحاجة:</p>
+            <h3>👥 تعيين واختيار الوصي الموثوق</h3>
+            <p>أدخل بيانات الشخص المسؤول عن تأكيد حالة الخزينة:</p>
             <div class="guardian-form">
-                <input type="text" id="guardianName" class="form-control" placeholder="اسم الوصي الكريم...">
+                <input type="text" id="guardianName" class="form-control" placeholder="اسم الوصي الكامل...">
                 <input type="email" id="guardianEmail" class="form-control" placeholder="البريد الإلكتروني للوصي...">
-                <button class="btn" onclick="saveGuardian()">حفظ الوصي في النظام المحلي</button>
+                <button class="btn" onclick="saveGuardian()">حفظ اعتماد الوصي</button>
             </div>
-            <div id="guardianStatus" style="margin-top: 15px; font-size: 0.85rem; color: var(--accent-color);"></div>
+            <div id="guardianDisplayArea"></div>
         </div>
 
         <div class="nav-links">
-            <a href="index.html">الرئيسية</a> | 
-            <a href="dashboard.html">الخزينة الزمنية</a>
+            <a href="index.html">الرئيسية والاشتراكات</a>
+            <span>•</span>
+            <a href="dashboard.html">خزينة المדיה</a>
+            <span>•</span>
+            <a href="#" onclick="logoutSystem()" style="color: #ef4444;">تسجيل خروج</a>
         </div>
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', loadGuardian);
+
         function saveGuardian() {
             const name = document.getElementById('guardianName').value.trim();
             const email = document.getElementById('guardianEmail').value.trim();
 
             if (!name || !email) {
-                alert('الرجاء إدخال اسم البريد الإلكتروني للوصي.');
+                alert('الرجاء إدخال اسم البريد الإلكتروني للوصي بدقة.');
                 return;
             }
 
@@ -166,7 +176,33 @@
             document.getElementById('guardianName').value = '';
             document.getElementById('guardianEmail').value = '';
 
-            document.getElementById('guardianStatus').textContent = `تم بنجاح اعتماد الوصي: ${name} وتأمين الخزينة محلياً.`;
+            loadGuardian();
+            alert(`تم بنجاح اعتماد الوصي (${name}) وتأمين بروتوكول الخزينة.`);
+        }
+
+        function loadGuardian() {
+            const area = document.getElementById('guardianDisplayArea');
+            const data = JSON.parse(localStorage.getItem('echosoul_guardian'));
+
+            if (data) {
+                area.innerHTML = `
+                    <div class="saved-guardian">
+                        <p style="color: var(--accent-color); font-weight: bold; margin-bottom: 4px;">✅ الوصي المعتمد حالياً:</p>
+                        <p>الاسم: ${data.name}</p>
+                        <p>البريد: ${data.email}</p>
+                        <p style="font-size: 0.75rem; color: #6b7280; margin-top: 4px;">تاريخ الاعتماد: ${data.date}</p>
+                    </div>
+                `;
+            } else {
+                area.innerHTML = '<p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 10px;">لم يتم تعيين وصي بعد.</p>';
+            }
+        }
+
+        function logoutSystem() {
+            if (confirm('هل تريد فعلاً تسجيل الخروج وإقفال الجلسة المحلية؟')) {
+                localStorage.removeItem('echosoul_user');
+                window.location.href = 'index.html';
+            }
         }
     </script>
 
