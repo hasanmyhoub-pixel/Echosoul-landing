@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echosoul - لوحة تحكم الإرث الرقمي</title>
+    <style>
+        :root {
+            --bg-color: #0f1115;
+            --card-bg: #181b22;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --accent-color: #c5a880;
+            --accent-hover: #b3966e;
+            --border-color: #262a35;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+        header span {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        @media(min-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+        }
+        .card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: var(--text-main);
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            background-color: #0f1115;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            color: var(--text-main);
+            outline: none;
+            font-size: 0.95rem;
+            text-align: right;
+        }
+        .form-control:focus {
+            border-color: var(--accent-color);
+        }
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .btn {
+            background-color: var(--accent-color);
+            color: #000;
+            padding: 12px 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: var(--accent-hover);
+        }
+        .status-badge {
+            display: inline-block;
+            background-color: rgba(197, 168, 128, 0.15);
+            color: var(--accent-color);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .back-link a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Echosoul | لوحة التحكم</h1>
+            <span>الحالة: محمية ومشفرة</span>
+        </header>
+
+        <div class="grid">
+            <!-- Voice Twin Setup -->
+            <div class="card">
+                <span class="status-badge">التوأم الصوتي</span>
+                <h3>رفع عينة الصوت</h3>
+                <p>قم برفع تسجيلاً صوتياً واضحاً (مدة دقيقتين على الأقل) لتدريب نموذج الذكاء الاصطناعي على نبرة صوتك الفريدة.</p>
+                <div class="form-group">
+                    <label>اختر ملف صوتي (MP3 / WAV)</label>
+                    <input type="file" class="form-control" accept="audio/*">
+                </div>
+                <button class="btn" onclick="alert('تم حفظ عينة الصوت بنجاح في وضع المحاكاة!')">رفع وتدريب الصوت</button>
+            </div>
+
+            <!-- Memory & Wisdom Injection -->
+            <div class="card">
+                <span class="status-badge">الذاكرة والحكمة</span>
+                <h3>أضف قصة حياة أو نصيحة</h3>
+                <p>شارك موقفاً مؤثراً، حكمة حياتية، أو درساً تعلمته لكي يستطيع الذكاء الاصطناعي مشاركته مع أحبائك.</p>
+                <div class="form-group">
+                    <label>عنوان الذكري أو الموقف</label>
+                    <input type="text" class="form-control" placeholder="مثال: درسي الأول في الصبر...">
+                </div>
+                <div class="form-group">
+                    <label>التفاصيل</label>
+                    <textarea class="form-control" placeholder="اكتب التفاصيل بروحك وأسلوبك..."></textarea>
+                </div>
+                <button class="btn" onclick="alert('تم حفظ الذكرى بنجاح في الذاكرة المشفرة!')">حفظ في الإرث الرقمي</button>
+            </div>
+        </div>
+
+        <div class="back-link">
+            <a href="index.html">← العودة إلى الصفحة الرئيسية</a> | 
+            <a href="protocol.html">عرض بروتوكول الأمان</a> | 
+            <a href="chat.html">تجربة جلسة المحادثة</a>
+        </div>
+    </div>
+
+</body>
+</html>
