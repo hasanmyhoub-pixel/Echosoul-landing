@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echosoul - Talk with Persona</title>
+    <style>
+        :root {
+            --bg-color: #0f1115;
+            --card-bg: #181b22;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --accent-color: #c5a880;
+            --accent-hover: #b3966e;
+            --bubble-ai: #21262d;
+            --bubble-user: #c5a880;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-header {
+            background-color: var(--card-bg);
+            padding: 15px 20px;
+            text-align: center;
+            border-bottom: 1px solid #262a35;
+        }
+        .chat-header h2 {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+        }
+        .chat-header p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .chat-container {
+            flex: 1;
+            max-width: 700px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .message.ai {
+            background-color: var(--bubble-ai);
+            color: var(--text-main);
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+        .message.user {
+            background-color: var(--bubble-user);
+            color: #000;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+            font-weight: 500;
+        }
+        .chat-input-area {
+            background-color: var(--card-bg);
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            border-top: 1px solid #262a35;
+        }
+        .chat-input-wrapper {
+            max-width: 700px;
+            width: 100%;
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            background-color: #0f1115;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            color: var(--text-main);
+            outline: none;
+            font-size: 0.95rem;
+        }
+        .chat-input:focus {
+            border-color: var(--accent-color);
+        }
+        .send-btn {
+            background-color: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 0 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .send-btn:hover {
+            background-color: var(--accent-hover);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-header">
+        <h2>Echosoul Legacy Session</h2>
+        <p>Conversing with a protected digital memory profile</p>
+    </div>
+
+    <div class="chat-container" id="chatContainer">
+        <div class="message ai">
+            Hello. I'm so glad you're here. Even across time and distance, some bonds never fade. How are you feeling today, and what would you like to talk about?
+        </div>
+    </div>
+
+    <div class="chat-input-area">
+        <div class="chat-input-wrapper">
+            <input type="text" id="userInput" class="chat-input" placeholder="Type a message to your loved one..." autocomplete="off">
+            <button class="send-btn" id="sendBtn">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const chatContainer = document.getElementById('chatContainer');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+
+        function addMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('message', sender);
+            msgDiv.textContent = text;
+            chatContainer.appendChild(msgDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function handleSend() {
+            const text = userInput.value.trim();
+            if(!text) return;
+
+            addMessage(text, 'user');
+            userInput.value = '';
+
+            // محاكاة استجابة الذكاء الاصطناعي الدافئة (سيتم ربطها بـ OpenAI لاحقاً)
+            setTimeout(() => {
+                const responses = [
+                    "I hear you, and I want you to remember that I'm always proud of the path you're walking.",
+                    "That brings back such wonderful memories. Keep holding onto that optimism.",
+                    "Whenever you feel uncertain, trust your heart. You've always had my strength within you."
+                ];
+                const randomReply = responses[Math.floor(Math.random() * responses.length)];
+                addMessage(randomReply, 'ai');
+            }, 1000);
+        }
+
+        sendBtn.addEventListener('click', handleSend);
+        userInput.addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') handleSend();
+        });
+    </script>
+
+</body>
+</html>
