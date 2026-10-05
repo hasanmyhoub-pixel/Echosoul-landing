@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echosoul - بروتوكول الأمان والإرث الرقمي</title>
+    <style>
+        :root {
+            --bg-color: #0f1115;
+            --card-bg: #181b22;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --accent-color: #c5a880;
+            --accent-hover: #b3966e;
+            --border-color: #262a35;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+        header h1 span {
+            color: var(--accent-color);
+        }
+        header p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        .protocol-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        .step-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        .step-card::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background-color: var(--accent-color);
+        }
+        .step-number {
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .step-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+        .step-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        .security-badge {
+            background-color: var(--card-bg);
+            border: 1px solid var(--accent-color);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .security-badge h3 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        .security-badge p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        .nav-links {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .nav-links a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>بروتوكول الأمان و<span>الإرث الرقمي</span></h1>
+            <p>في Echosoul، نؤمن بأن ذكرياتك وصوتك مقدسة. لقد صممنا نظاماً أمنياً متعدد الطبقات لضمان الخصوصية التامة والتحقق الدقيق قبل تفعيل أي إرث رقمي.</p>
+        </header>
+
+        <div class="protocol-steps">
+            <!-- Step 1 -->
+            <div class="step-card">
+                <span class="step-number">المرحلة الأولى</span>
+                <h3>مراقبة النشاط التلقائية (Inactivity Trigger)</h3>
+                <p>يقوم مالك الحساب بتحديد فترة زمنية للاستشعار (مثل 6 أشهر أو سنة). يرسل النظام دورياً إشعارات وتنبيهات سرية عبر البريد الإلكتروني والهاتف للتأكد من استمرار النشاط وسلامة المستخدم دون أي إزعاج.</p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step-card">
+                <span class="step-number">المرحلة الثانية</span>
+                <h3>موافقة الأوصياء المعينين (Guardian Verification)</h3>
+                <p>عند انقضاء فترة عدم النشاط دون استجابة، يتواصل النظام مع "الأوصياء الموثوقين" الذين حددهم المالك مسبقاً (كالأبناء أو الشركاء). يتطلب تفعيل الحساب مصادقة وتأكيد عدد محدد من الأوصياء لمنع أي وصول غير مرغوب فيه.</p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step-card">
+                <span class="step-number">المرحلة الثالثة</span>
+                <h3>التحقق القانوني والرسمي (Official Validation)</h3>
+                <p>كخطوة أمان نهائية متوافقة تماماً مع المعايير العالمية الصارمة (مثل GDPR و CCPA)، يتم توفير آلية مشفرة لرفع أو ربط المستندات الرسمية المعتمدة (مثل شهادة الوفاة)، ليتحول الحساب بعدها حصرياً إلى "وضع الإرث النشط".</p>
+            </div>
+        </div>
+
+        <!-- Security Badge -->
+        <div class="security-badge">
+            <h3>التشفير العسكري والخصوصية المطلقة</h3>
+            <p>جميع البيانات الصوتية وقصص الحياة مشفرة من النهاية إلى النهاية (End-to-End Encryption). لا يتم مشاركة بياناتك أو بيعها لأي طرف ثالث نهائياً.</p>
+        </div>
+
+        <div class="nav-links">
+            <a href="index
