@@ -147,7 +147,7 @@
 
         <!-- API Key Input for Direct Mobile Testing -->
         <div class="api-config">
-            <input type="password" id="apiKeyInput" placeholder="أدخل مفتاح OpenAI API هنا للتجربة...">
+            <input type="password" id="apiKeyInput" placeholder="أدخل مفتاح OpenAI API هنا (sk-...)">
         </div>
 
         <!-- Messages Area -->
@@ -174,12 +174,13 @@
             const apiKey = apiKeyInput.value.trim();
 
             if (!text) return;
+            
             if (!apiKey) {
-                alert('الرجاء إدخال مفتاح OpenAI API في الحقل المخصص بالأعلى أولاً.');
+                alert('تنبيه: الرجاء إدخال مفتاح OpenAI API في الحقل المخصص بأعلى الصفحة أولاً.');
                 return;
             }
 
-            // عرض رسالة المستخدم
+            // عرض رسالة المستخدم في الشاشة فوراً
             const userMsg = document.createElement('div');
             userMsg.className = 'message user';
             userMsg.textContent = text;
@@ -188,7 +189,14 @@
             inputField.value = '';
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-            // إرسال الطلب مباشرة إلى OpenAI API
+            // إضافة رسالة مؤقتة تدل على جاري الكتابة
+            const loadingMsg = document.createElement('div');
+            loadingMsg.className = 'message assistant';
+            loadingMsg.id = 'loadingMsg';
+            loadingMsg.textContent = 'جاري استدعاء الذاكرة...';
+            messagesContainer.appendChild(loadingMsg);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
             try {
                 const response = await fetch('https://api.openai.com/v1/chat/completions', {
                     method: 'POST',
@@ -207,6 +215,9 @@
 
                 const data = await response.json();
                 
+                // إزالة رسالة التحميل
+                document.getElementById('loadingMsg').remove();
+
                 if (data.choices && data.choices.length > 0) {
                     const reply = data.choices[0].message.content;
                     
@@ -214,15 +225,20 @@
                     assistantMsg.className = 'message assistant';
                     assistantMsg.textContent = reply;
                     messagesContainer.appendChild(assistantMsg);
+                } else if (data.error) {
+                    throw new Error(data.error.message || 'خطأ من مزود الخدمة');
                 } else {
-                    throw new Error('استجابة غير متوقعة من الخادم.');
+                    throw new Error('استجابة غير صالحة من السيرفر.');
                 }
 
             } catch (error) {
-                const errorMsg = عذرًا، حدث خطأ في الاتصال: ${error.message};
+                // إزالة رسالة التحميل إن وجدت
+                const loader = document.getElementById('loadingMsg');
+                if (loader) loader.remove();
+
                 const assistantMsg = document.createElement('div');
                 assistantMsg.className = 'message assistant';
-                assistantMsg.textContent = errorMsg;
+                assistantMsg.textContent = 'عذرًا، تعذر إرسال الرسالة: ' + error.message;
                 messagesContainer.appendChild(assistantMsg);
             }
 
