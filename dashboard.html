@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Echosoul - خزينة الإرث الزمنية</title>
+    <title>Echosoul - خزينة الإرث الزمنية والميديا</title>
     <style>
         :root {
             --bg-color: #0f1115;
@@ -27,7 +27,7 @@
             padding: 15px;
         }
         .container {
-            max-width: 700px;
+            max-width: 650px;
             margin: 0 auto;
             padding: 10px;
         }
@@ -40,7 +40,7 @@
             margin-bottom: 25px;
         }
         header h1 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--accent-color);
         }
         header span {
@@ -84,7 +84,25 @@
         }
         textarea.form-control {
             resize: vertical;
-            min-height: 90px;
+            min-height: 80px;
+        }
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3Cpolyline points='6 9 12 15 18 9'%3e%3C/polyline%3e%3C/svg%3e");
+            background-repeat: no-repeat;
+            background-position: left 10px center;
+            background-size: 16px;
+        }
+        .file-upload-box {
+            border: 2px dashed #374151;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            background: #13151a;
+            cursor: pointer;
+        }
+        .file-upload-box input {
+            display: none;
         }
         .btn {
             background-color: var(--accent-color);
@@ -119,7 +137,7 @@
             display: flex;
             justify-content: space-between;
         }
-        .badge-time {
+        .badge {
             background: rgba(197, 168, 128, 0.15);
             color: var(--accent-color);
             padding: 2px 8px;
@@ -147,81 +165,134 @@
 
     <div class="container">
         <header>
-            <h1>Echosoul | الخزينة الزمنية</h1>
-            <span>إدارة الوصايا والذكريات</span>
+            <h1>Echosoul | الخزينة والوسائط</h1>
+            <span id="userLoggedDisplay">الإدارة المحلية</span>
         </header>
 
         <!-- Form Card -->
         <div class="card">
-            <h3>إضافة كبسولة زمنية أو وصية جديدة</h3>
+            <h3>إضافة كبسولة إرث جديدة (نص وميديا)</h3>
+            
             <div class="form-group">
-                <label>عنوان الكبسولة (مثال: رسالتي لعائلتي في المستقبل)</label>
-                <input type="text" id="vaultTitle" class="form-control" placeholder="اكتب العنوان هنا...">
+                <label>عنوان الإرث أو الرسالة</label>
+                <input type="text" id="vaultTitle" class="form-control" placeholder="مثال: رسالة صوتية وفيديو للعائلة...">
             </div>
+
             <div class="form-group">
-                <label>محتوى الوصية أو الرسالة</label>
-                <textarea id="vaultContent" class="form-control" placeholder="اكتب التفاصيل، النصائح، أو الكلمات التي تريد تركها..."></textarea>
+                <label>نوع القفل وشرط الإفراج</label>
+                <select id="lockType" class="form-control" onchange="toggleDateInput()">
+                    <option value="date">كبسولة زمنية (تفتح في تاريخ محدد)</option>
+                    <option value="guardian">بروتوكول الأوصياء (بعد الوفاة وبموافقتهم)</option>
+                    <option value="instant">بدون قيود زمنية (متاح فوراً)</option>
+                </select>
             </div>
-            <div class="form-group">
-                <label>تاريخ الإفراج المجدول (لا تفتح قبل هذا التاريخ)</label>
+
+            <div class="form-group" id="dateGroup">
+                <label>تاريخ الفتح المستقبلي المستهدف</label>
                 <input type="date" id="vaultReleaseDate" class="form-control" value="2030-01-01">
             </div>
-            <button class="btn" onclick="saveVaultItem()">قفل وإيداع في الخزينة الزمنية</button>
+
+            <div class="form-group">
+                <label>محتوى الوصية النصي</label>
+                <textarea id="vaultContent" class="form-control" placeholder="اكتب الكلمات أو الوصية هنا..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>إرفاق ملف ميديا (صورة، صوت، أو فيديو)</label>
+                <div class="file-upload-box" onclick="document.getElementById('mediaFile').click()">
+                    <span id="fileNameDisplay" style="font-size: 0.85rem; color: var(--text-muted);">انقر لاختيار مقطع فيديو، صوت، أو صورة من هاتفك</span>
+                    <input type="file" id="mediaFile" accept="image/*,video/*,audio/*" onchange="handleFileSelect(this)">
+                </div>
+            </div>
+
+            <button class="btn" onclick="saveAdvancedVault()">قفل وتأمين في الخزينة</button>
         </div>
 
         <!-- Vault Items Display -->
         <div class="card">
-            <h3>الكبسولات المُدخرة في خزينتك</h3>
+            <h3>كبسولاتك الموثقة</h3>
             <div class="vault-list" id="vaultList">
-                <p style="color: var(--text-muted); font-size: 0.85rem;">لا توجد كبسولات زمنية مسجلة حتى الآن.</p>
+                <p style="color: var(--text-muted); font-size: 0.85rem;">لا توجد كبسولات مسجلة حالياً.</p>
             </div>
         </div>
 
         <div class="nav-links">
-            <a href="index.html">الرئيسية</a> | 
-            <a href="protocol.html">بروتوكول الأمان والأوصياء</a>
+            <a href="index.html">الرئيسية والاشتراكات</a> | 
+            <a href="protocol.html">الأوصياء والأمان</a>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', loadVaultItems);
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = localStorage.getItem('echosoul_user');
+            if (user) {
+                document.getElementById('userLoggedDisplay').textContent = user;
+            }
+            loadVaultItems();
+        });
 
-        function saveVaultItem() {
+        function toggleDateInput() {
+            const lockType = document.getElementById('lockType').value;
+            const dateGroup = document.getElementById('dateGroup');
+            if (lockType === 'date') {
+                dateGroup.style.display = 'block';
+            } else {
+                dateGroup.style.display = 'none';
+            }
+        }
+
+        let selectedFileName = '';
+        function handleFileSelect(input) {
+            if (input.files && input.files[0]) {
+                selectedFileName = input.files[0].name;
+                document.getElementById('fileNameDisplay').textContent = `تم إرفاق الملف: ${selectedFileName}`;
+            }
+        }
+
+        function saveAdvancedVault() {
             const title = document.getElementById('vaultTitle').value.trim();
             const content = document.getElementById('vaultContent').value.trim();
+            const lockType = document.getElementById('lockType').value;
             const releaseDate = document.getElementById('vaultReleaseDate').value;
 
-            if (!title || !content || !releaseDate) {
-                alert('الرجاء إكمال جميع الحقول وتحديد تاريخ الإفراج.');
+            if (!title || !content) {
+                alert('الرجاء إدخال عنوان الإرث والمحتوى النصي على الأقل.');
                 return;
             }
+
+            let lockConditionText = '';
+            if (lockType === 'date') lockConditionText = `تاريخ الفتح: ${releaseDate}`;
+            else if (lockType === 'guardian') lockConditionText = `يفتح عبر بروتوكول الأوصياء`;
+            else lockConditionText = `متاح فوراً`;
 
             const newItem = {
                 title,
                 content,
-                releaseDate,
+                lockCondition: lockConditionText,
+                media: selectedFileName ? selectedFileName : 'لا يوجد ملف مرفق',
                 createdDate: new Date().toLocaleDateString('ar-SA')
             };
 
-            let vaultItems = JSON.parse(localStorage.getItem('echosoul_vault') || '[]');
+            let vaultItems = JSON.parse(localStorage.getItem('echosoul_vault_pro') || '[]');
             vaultItems.push(newItem);
-            localStorage.setItem('echosoul_vault', JSON.stringify(vaultItems));
+            localStorage.setItem('echosoul_vault_pro', JSON.stringify(vaultItems));
 
-            // تفريغ الحقول
+            // تصفية المدخلات
             document.getElementById('vaultTitle').value = '';
             document.getElementById('vaultContent').value = '';
-            document.getElementById('vaultReleaseDate').value = '2030-01-01';
+            document.getElementById('fileNameDisplay').textContent = 'انقر لاختيار مقطع فيديو، صوت، أو صورة من هاتفك';
+            selectedFileName = '';
 
             loadVaultItems();
-            alert('تم قفل الإيداع وإضافته للخزينة الزمنية بنجاح!');
+            alert('تم تأمين الكبسولة وإضافتها للخزينة الرقمية بنجاح!');
         }
 
         function loadVaultItems() {
             const vaultList = document.getElementById('vaultList');
-            let vaultItems = JSON.parse(localStorage.getItem('echosoul_vault') || '[]');
+            let vaultItems = JSON.parse(localStorage.getItem('echosoul_vault_pro') || '[]');
 
             if (vaultItems.length === 0) {
-                vaultList.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">لا توجد كبسولات زمنية مسجلة حتى الآن.</p>';
+                vaultList.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">لا توجد كبسولات مسجلة حالياً.</p>';
                 return;
             }
 
@@ -232,10 +303,11 @@
                 div.innerHTML = `
                     <h4>
                         <span>${index + 1}. ${item.title}</span>
-                        <span class="badge-time">تاريخ الفتح: ${item.releaseDate}</span>
+                        <span class="badge">${item.lockCondition}</span>
                     </h4>
                     <p><strong>المحتوى:</strong> ${item.content}</p>
-                    <p style="font-size: 0.75rem; color: #6b7280; margin-top: 8px;">تاريخ الإنشاء: ${item.createdDate}</p>
+                    <p style="font-size: 0.8rem; color: var(--accent-color); margin-top: 5px;">📎 المرفق: ${item.media}</p>
+                    <p style="font-size: 0.75rem; color: #6b7280; margin-top: 5px;">تاريخ الإنشاء: ${item.createdDate}</p>
                 `;
                 vaultList.appendChild(div);
             });
