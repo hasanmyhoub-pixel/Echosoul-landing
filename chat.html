@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Echosoul - جلسة الإرث الرقمي</title>
+    <title>Echosoul - جلسة المحادثة الذكية</title>
     <style>
         :root {
             --bg-color: #0f1115;
@@ -12,8 +12,7 @@
             --text-muted: #9ca3af;
             --accent-color: #c5a880;
             --accent-hover: #b3966e;
-            --bubble-ai: #21262d;
-            --bubble-user: #c5a880;
+            --border-color: #262a35;
         }
         * {
             box-sizing: border-box;
@@ -24,29 +23,58 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            height: 100vh;
             display: flex;
             flex-direction: column;
-        }
-        .chat-header {
-            background-color: var(--card-bg);
-            padding: 15px 20px;
-            text-align: center;
-            border-bottom: 1px solid #262a35;
-        }
-        .chat-header h2 {
-            font-size: 1.2rem;
-            color: var(--accent-color);
-        }
-        .chat-header p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            height: 100vh;
+            padding: 10px;
         }
         .chat-container {
-            flex: 1;
-            max-width: 700px;
+            max-width: 600px;
             width: 100%;
             margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .chat-header {
+            padding: 15px 20px;
+            background: #13151a;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-header h2 {
+            font-size: 1.1rem;
+            color: var(--accent-color);
+        }
+        .chat-header a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        .api-config {
+            padding: 10px 15px;
+            background: #1f232b;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 10px;
+        }
+        .api-config input {
+            flex: 1;
+            padding: 8px 12px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-main);
+            font-size: 0.85rem;
+        }
+        .chat-messages {
+            flex: 1;
             padding: 20px;
             overflow-y: auto;
             display: flex;
@@ -56,50 +84,44 @@
         .message {
             max-width: 80%;
             padding: 12px 16px;
-            border-radius: 12px;
+            border-radius: 10px;
             font-size: 0.95rem;
-            line-height: 1.6;
-        }
-        .message.ai {
-            background-color: var(--bubble-ai);
-            color: var(--text-main);
-            align-self: flex-start;
-            border-bottom-left-radius: 2px;
+            line-height: 1.5;
         }
         .message.user {
-            background-color: var(--bubble-user);
+            background-color: var(--accent-color);
             color: #000;
-            align-self: flex-end;
+            align-self: flex-start;
             border-bottom-right-radius: 2px;
-            font-weight: 500;
+        }
+        .message.assistant {
+            background-color: #21252e;
+            color: var(--text-main);
+            align-self: flex-end;
+            border-bottom-left-radius: 2px;
+            border: 1px solid var(--border-color);
         }
         .chat-input-area {
-            background-color: var(--card-bg);
             padding: 15px;
-            display: flex;
-            justify-content: center;
-            border-top: 1px solid #262a35;
-        }
-        .chat-input-wrapper {
-            max-width: 700px;
-            width: 100%;
+            background: #13151a;
+            border-top: 1px solid var(--border-color);
             display: flex;
             gap: 10px;
         }
-        .chat-input {
+        .chat-input-area input {
             flex: 1;
-            padding: 12px 16px;
-            background-color: #0f1115;
-            border: 1px solid #374151;
+            padding: 12px 15px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
             color: var(--text-main);
-            outline: none;
             font-size: 0.95rem;
+            outline: none;
         }
-        .chat-input:focus {
+        .chat-input-area input:focus {
             border-color: var(--accent-color);
         }
-        .send-btn {
+        .chat-input-area button {
             background-color: var(--accent-color);
             color: #000;
             border: none;
@@ -109,90 +131,109 @@
             cursor: pointer;
             transition: background 0.3s;
         }
-        .send-btn:hover {
+        .chat-input-area button:hover {
             background-color: var(--accent-hover);
         }
     </style>
 </head>
 <body>
 
-    <div class="chat-header">
-        <h2>Echosoul - Digital Legacy Session</h2>
-        <p>جلسة التفاعل مع الإرث الرقمي الآمن</p>
-    </div>
-
-    <div class="chat-container" id="chatContainer">
-        <div class="message ai">
-            أهلاً بك. أنا سعيد لوجودك. كيف تشعر اليوم، وعما ترغب أن نتحدث؟<br>
-            <i>Welcome. I'm glad you're here. How are you feeling today?</i>
+    <div class="chat-container">
+        <!-- Chat Header -->
+        <div class="chat-header">
+            <h2>Echosoul | التوأم الذكي</h2>
+            <a href="index.html">← الرئيسية</a>
         </div>
-    </div>
 
-    <div class="chat-input-area">
-        <div class="chat-input-wrapper">
-            <input type="text" id="userInput" class="chat-input" placeholder="اكتب رسالتك بالعربية أو الإنجليزية..." autocomplete="off">
-            <button class="send-btn" id="sendBtn">إرسال</button>
+        <!-- API Key Input for Direct Mobile Testing -->
+        <div class="api-config">
+            <input type="password" id="apiKeyInput" placeholder="أدخل مفتاح OpenAI API هنا للتجربة...">
+        </div>
+
+        <!-- Messages Area -->
+        <div class="chat-messages" id="chatMessages">
+            <div class="message assistant">
+                أهلاً بك يا بني. أنا هنا لأشاركك الذكريات والحكمة. كيف يمكنني مساعدتك اليوم؟
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="chat-input-area">
+            <input type="text" id="userInput" placeholder="اكتب رسالتك..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">إرسال</button>
         </div>
     </div>
 
     <script>
-        const chatContainer = document.getElementById('chatContainer');
-        const userInput = document.getElementById('userInput');
-        const sendBtn = document.getElementById('sendBtn');
+        async function sendMessage() {
+            const inputField = document.getElementById('userInput');
+            const messagesContainer = document.getElementById('chatMessages');
+            const apiKeyInput = document.getElementById('apiKeyInput');
+            
+            const text = inputField.value.trim();
+            const apiKey = apiKeyInput.value.trim();
 
-        function addMessage(text, sender, isRtl) {
-            const msgDiv = document.createElement('div');
-            msgDiv.classList.add('message', sender);
-            msgDiv.textContent = text;
-            msgDiv.style.direction = isRtl ? 'rtl' : 'ltr';
-            msgDiv.style.textAlign = isRtl ? 'right' : 'left';
-            chatContainer.appendChild(msgDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
+            if (!text) return;
+            if (!apiKey) {
+                alert('الرجاء إدخال مفتاح OpenAI API في الحقل المخصص بالأعلى أولاً.');
+                return;
+            }
 
-        // دالة للتحقق هل النص عربي أم لا
-        function isArabic(text) {
-            const arabicRegex = /[\u0600-\u06FF]/;
-            return arabicRegex.test(text);
-        }
+            // عرض رسالة المستخدم
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user';
+            userMsg.textContent = text;
+            messagesContainer.appendChild(userMsg);
+            
+            inputField.value = '';
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-        function handleSend() {
-            const text = userInput.value.trim();
-            if(!text) return;
+            // إرسال الطلب مباشرة إلى OpenAI API
+            try {
+                const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify({
+                        model: 'gpt-4o-mini',
+                        messages: [
+                            { role: 'system', content: 'أنت Echosoul، ذكاء اصطناعي لحفظ الإرث الرقمي. تحدث بنبرة دافئة وحكيمة وودودة باللغة العربية.' },
+                            { role: 'user', content: text }
+                        ]
+                    })
+                });
 
-            const userIsArabic = isArabic(text);
-            addMessage(text, 'user', userIsArabic);
-            userInput.value = '';
-
-            // رد الذكاء الاصطناعي بناءً على لغة المستخدم
-            setTimeout(() => {
-                let reply = "";
-                let replyIsRtl = userIsArabic;
-
-                if (userIsArabic) {
-                    const arabicReplies = [
-                        "أنا أسمعك جيداً، وأريدك أن تتذكر دائماً أنني فخور بك وبخطواتك.",
-                        "هذا يذكرني بأجمل الأوقات التي قضيناها معاً. حافظ على هذا التفاؤل.",
-                        "كلما شعرت بالصعاب، تذكر أن قوتي معك دائماً."
-                    ];
-                    reply = arabicReplies[Math.floor(Math.random() * arabicReplies.length)];
+                const data = await response.json();
+                
+                if (data.choices && data.choices.length > 0) {
+                    const reply = data.choices[0].message.content;
+                    
+                    const assistantMsg = document.createElement('div');
+                    assistantMsg.className = 'message assistant';
+                    assistantMsg.textContent = reply;
+                    messagesContainer.appendChild(assistantMsg);
                 } else {
-                    const englishReplies = [
-                        "I hear you, and I want you to remember that I'm always proud of you.",
-                        "This brings back such wonderful memories. Keep holding onto that optimism.",
-                        "Whenever things get tough, remember my strength is always with you."
-                    ];
-                    reply = englishReplies[Math.floor(Math.random() * englishReplies.length)];
+                    throw new Error('استجابة غير متوقعة من الخادم.');
                 }
 
-                addMessage(reply, 'ai', replyIsRtl);
-            }, 1000);
+            } catch (error) {
+                const errorMsg = عذرًا، حدث خطأ في الاتصال: ${error.message};
+                const assistantMsg = document.createElement('div');
+                assistantMsg.className = 'message assistant';
+                assistantMsg.textContent = errorMsg;
+                messagesContainer.appendChild(assistantMsg);
+            }
+
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        sendBtn.addEventListener('click', handleSend);
-        userInput.addEventListener('keypress', (e) => {
-            if(e.key === 'Enter') handleSend();
-        });
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        }
     </script>
 
 </body>
