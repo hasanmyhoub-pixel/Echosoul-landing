@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Echosoul - Talk with Persona</title>
+    <title>Echosoul - جلسة الإرث الرقمي</title>
     <style>
         :root {
             --bg-color: #0f1115;
@@ -58,7 +58,7 @@
             padding: 12px 16px;
             border-radius: 12px;
             font-size: 0.95rem;
-            line-height: 1.5;
+            line-height: 1.6;
         }
         .message.ai {
             background-color: var(--bubble-ai);
@@ -95,6 +95,7 @@
             color: var(--text-main);
             outline: none;
             font-size: 0.95rem;
+            text-align: right;
         }
         .chat-input:focus {
             border-color: var(--accent-color);
@@ -117,20 +118,20 @@
 <body>
 
     <div class="chat-header">
-        <h2>Echosoul Legacy Session</h2>
-        <p>Conversing with a protected digital memory profile</p>
+        <h2>جلسة الإرث الرقمي - Echosoul</h2>
+        <p>التحدث مع ملف الذاكرة الرقمي المحمي</p>
     </div>
 
     <div class="chat-container" id="chatContainer">
         <div class="message ai">
-            Hello. I'm so glad you're here. Even across time and distance, some bonds never fade. How are you feeling today, and what would you like to talk about?
+            أهلاً بك. أنا سعيد جداً لوجودك هنا. حتى عبر الزمن والمسافات، بعض الروابط لا تنطفئ أبداً. كيف تشعر اليوم، وعما ترغب أن نتحدث؟
         </div>
     </div>
 
     <div class="chat-input-area">
         <div class="chat-input-wrapper">
-            <input type="text" id="userInput" class="chat-input" placeholder="Type a message to your loved one..." autocomplete="off">
-            <button class="send-btn" id="sendBtn">Send</button>
+            <input type="text" id="userInput" class="chat-input" placeholder="اكتب رسالتك لمن تحب..." autocomplete="off">
+            <button class="send-btn" id="sendBtn">إرسال</button>
         </div>
     </div>
 
@@ -154,12 +155,12 @@
             addMessage(text, 'user');
             userInput.value = '';
 
-            // محاكاة استجابة الذكاء الاصطناعي الدافئة (سيتم ربطها بـ OpenAI لاحقاً)
+            // محاكاة رد دافئ باللغة العربية
             setTimeout(() => {
                 const responses = [
-                    "I hear you, and I want you to remember that I'm always proud of the path you're walking.",
-                    "That brings back such wonderful memories. Keep holding onto that optimism.",
-                    "Whenever you feel uncertain, trust your heart. You've always had my strength within you."
+                    "أنا أسمعك جيداً، وأريدك أن تتذكر دائماً أنني فخور بالخطوات التي تخطوها في حياتك.",
+                    "هذا يذكرني بذكريات جميلة جداً عشناها معاً. تمسك بهذا التفاؤل دوماً.",
+                    "كلما شعرت بالتردد، استمع إلى قلبك. لقد ورثت دائماً قوتي وثباتي."
                 ];
                 const randomReply = responses[Math.floor(Math.random() * responses.length)];
                 addMessage(randomReply, 'ai');
