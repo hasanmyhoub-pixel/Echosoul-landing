@@ -171,16 +171,17 @@
             const apiKeyInput = document.getElementById('apiKeyInput');
             
             const text = inputField.value.trim();
-            const apiKey = apiKeyInput.value.trim();
+            // تنظيف المفتاح برمجياً من أي أحرف خاصة أو مسافات غير مرئية
+            const apiKey = apiKeyInput.value.trim().replace(/[^\x20-\x7E]/g, '');
 
             if (!text) return;
             
             if (!apiKey) {
-                alert('تنبيه: الرجاء إدخال مفتاح OpenAI API في الحقل المخصص بأعلى الصفحة أولاً.');
+                alert('تنبيه: الرجاء إدخال مفتاح OpenAI API صحيح في الحقل المخصص بأعلى الصفحة.');
                 return;
             }
 
-            // عرض رسالة المستخدم في الشاشة فوراً
+            // عرض رسالة المستخدم
             const userMsg = document.createElement('div');
             userMsg.className = 'message user';
             userMsg.textContent = text;
@@ -189,7 +190,7 @@
             inputField.value = '';
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-            // إضافة رسالة مؤقتة تدل على جاري الكتابة
+            // رسالة التحميل
             const loadingMsg = document.createElement('div');
             loadingMsg.className = 'message assistant';
             loadingMsg.id = 'loadingMsg';
@@ -202,7 +203,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${apiKey}`
+                        'Authorization': 'Bearer ' + apiKey
                     },
                     body: JSON.stringify({
                         model: 'gpt-4o-mini',
@@ -214,8 +215,6 @@
                 });
 
                 const data = await response.json();
-                
-                // إزالة رسالة التحميل
                 document.getElementById('loadingMsg').remove();
 
                 if (data.choices && data.choices.length > 0) {
@@ -232,7 +231,6 @@
                 }
 
             } catch (error) {
-                // إزالة رسالة التحميل إن وجدت
                 const loader = document.getElementById('loadingMsg');
                 if (loader) loader.remove();
 
