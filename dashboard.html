@@ -24,73 +24,59 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             line-height: 1.6;
-            padding: 20px;
+            padding: 15px;
         }
         .container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 10px;
         }
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
         }
         header h1 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: var(--accent-color);
         }
         header span {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-        @media(min-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr 1fr;
-            }
         }
         .card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 25px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
         .card h3 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 15px;
             color: var(--accent-color);
         }
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-        }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
         .form-group label {
             display: block;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-bottom: 5px;
             color: var(--text-main);
         }
         .form-control {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             background-color: #0f1115;
             border: 1px solid #374151;
             border-radius: 8px;
             color: var(--text-main);
             outline: none;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             text-align: right;
         }
         .form-control:focus {
@@ -98,41 +84,49 @@
         }
         textarea.form-control {
             resize: vertical;
-            min-height: 100px;
+            min-height: 80px;
         }
         .btn {
             background-color: var(--accent-color);
             color: #000;
-            padding: 12px 20px;
-            font-size: 0.95rem;
+            padding: 12px;
+            font-size: 0.9rem;
             font-weight: 600;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            transition: background 0.3s;
             width: 100%;
+            transition: background 0.3s;
         }
         .btn:hover {
             background-color: var(--accent-hover);
         }
-        .status-badge {
-            display: inline-block;
-            background-color: rgba(197, 168, 128, 0.15);
-            color: var(--accent-color);
-            padding: 5px 12px;
-            border-radius: 20px;
+        .memory-list {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .memory-item {
+            background: #13151a;
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 8px;
             font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 15px;
         }
-        .back-link {
+        .memory-item h4 {
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+        .back-links {
             text-align: center;
-            margin-top: 40px;
+            margin-top: 30px;
+            font-size: 0.9rem;
         }
-        .back-link a {
+        .back-links a {
             color: var(--accent-color);
             text-decoration: none;
-            font-size: 0.95rem;
+            margin: 0 10px;
         }
     </style>
 </head>
@@ -141,45 +135,85 @@
     <div class="container">
         <header>
             <h1>Echosoul | لوحة التحكم</h1>
-            <span>الحالة: محمية ومشفرة</span>
+            <span>خزينة الذاكرة المحلية</span>
         </header>
 
-        <div class="grid">
-            <!-- Voice Twin Setup -->
-            <div class="card">
-                <span class="status-badge">التوأم الصوتي</span>
-                <h3>رفع عينة الصوت</h3>
-                <p>قم برفع تسجيلاً صوتياً واضحاً (مدة دقيقتين على الأقل) لتدريب نموذج الذكاء الاصطناعي على نبرة صوتك الفريدة.</p>
-                <div class="form-group">
-                    <label>اختر ملف صوتي (MP3 / WAV)</label>
-                    <input type="file" class="form-control" accept="audio/*">
-                </div>
-                <button class="btn" onclick="alert('تم حفظ عينة الصوت بنجاح في وضع المحاكاة!')">رفع وتدريب الصوت</button>
+        <!-- Memory Injection Card -->
+        <div class="card">
+            <h3>أضف قصة حياة أو نصيحة لإرثك</h3>
+            <div class="form-group">
+                <label>عنوان الذكرى أو الموقف</label>
+                <input type="text" id="memoryTitle" class="form-control" placeholder="مثال: درسي الأول في الصبر...">
             </div>
+            <div class="form-group">
+                <label>التفاصيل والحكمة المستفادة</label>
+                <textarea id="memoryContent" class="form-control" placeholder="اكتب التفاصيل بروحك وأسلوبك..."></textarea>
+            </div>
+            <button class="btn" onclick="saveMemory()">حفظ في الإرث الرقمي</button>
+        </div>
 
-            <!-- Memory & Wisdom Injection -->
-            <div class="card">
-                <span class="status-badge">الذاكرة والحكمة</span>
-                <h3>أضف قصة حياة أو نصيحة</h3>
-                <p>شارك موقفاً مؤثراً، حكمة حياتية، أو درساً تعلمته لكي يستطيع الذكاء الاصطناعي مشاركته مع أحبائك.</p>
-                <div class="form-group">
-                    <label>عنوان الذكري أو الموقف</label>
-                    <input type="text" class="form-control" placeholder="مثال: درسي الأول في الصبر...">
-                </div>
-                <div class="form-group">
-                    <label>التفاصيل</label>
-                    <textarea class="form-control" placeholder="اكتب التفاصيل بروحك وأسلوبك..."></textarea>
-                </div>
-                <button class="btn" onclick="alert('تم حفظ الذكرى بنجاح في الذاكرة المشفرة!')">حفظ في الإرث الرقمي</button>
+        <!-- Saved Memories View -->
+        <div class="card">
+            <h3>الذكريات المحفوظة محلياً</h3>
+            <div class="memory-list" id="memoryList">
+                <p style="color: var(--text-muted); font-size: 0.85rem;">لا توجد ذكريات محفوظة حتى الآن.</p>
             </div>
         </div>
 
-        <div class="back-link">
-            <a href="index.html">← العودة إلى الصفحة الرئيسية</a> | 
-            <a href="protocol.html">عرض بروتوكول الأمان</a> | 
-            <a href="chat.html">تجربة جلسة المحادثة</a>
+        <div class="back-links">
+            <a href="index.html">الرئيسية</a> | 
+            <a href="chat.html">المحادثة</a> | 
+            <a href="protocol.html">الأمان</a>
         </div>
     </div>
+
+    <script>
+        // تحميل الذكريات المحفوظة عند فتح الصفحة
+        document.addEventListener('DOMContentLoaded', loadMemories);
+
+        function saveMemory() {
+            const title = document.getElementById('memoryTitle').value.trim();
+            const content = document.getElementById('memoryContent').value.trim();
+
+            if (!title || !content) {
+                alert('الرجاء تعبئة العنوان التفاصيل أولاً.');
+                return;
+            }
+
+            const newMemory = { title, content, date: new Date().toLocaleDateString('ar-SA') };
+            
+            let memories = JSON.parse(localStorage.getItem('echosoul_memories') || '[]');
+            memories.push(newMemory);
+            localStorage.setItem('echosoul_memories', JSON.stringify(memories));
+
+            document.getElementById('memoryTitle').value = '';
+            document.getElementById('memoryContent').value = '';
+
+            loadMemories();
+            alert('تم حفظ الذكرى بنجاح في ذاكرتك المحلية!');
+        }
+
+        function loadMemories() {
+            const memoryList = document.getElementById('memoryList');
+            let memories = JSON.parse(localStorage.getItem('echosoul_memories') || '[]');
+
+            if (memories.length === 0) {
+                memoryList.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">لا توجد ذكريات محفوظة حتى الآن.</p>';
+                return;
+            }
+
+            memoryList.innerHTML = '';
+            memories.forEach((mem, index) => {
+                const item = document.createElement('div');
+                item.className = 'memory-item';
+                item.innerHTML = `
+                    <h4>${index + 1}. ${mem.title} <span style="font-size:0.75rem; color:var(--text-muted); float:left;">${mem.date}</span></h4>
+                    <p style="color: var(--text-main);">${mem.content}</p>
+                `;
+                memoryList.appendChild(item);
+            });
+        }
+    </script>
 
 </body>
 </html>
