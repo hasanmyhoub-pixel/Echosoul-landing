@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Echosoul - لوحة تحكم الإرث الرقمي</title>
+    <title>Echosoul - خزينة الإرث الزمنية</title>
     <style>
         :root {
             --bg-color: #0f1115;
@@ -27,7 +27,7 @@
             padding: 15px;
         }
         .container {
-            max-width: 800px;
+            max-width: 700px;
             margin: 0 auto;
             padding: 10px;
         }
@@ -40,7 +40,7 @@
             margin-bottom: 25px;
         }
         header h1 {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--accent-color);
         }
         header span {
@@ -55,12 +55,12 @@
             margin-bottom: 20px;
         }
         .card h3 {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             margin-bottom: 15px;
             color: var(--accent-color);
         }
         .form-group {
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
         .form-group label {
             display: block;
@@ -84,7 +84,7 @@
         }
         textarea.form-control {
             resize: vertical;
-            min-height: 80px;
+            min-height: 90px;
         }
         .btn {
             background-color: var(--accent-color);
@@ -101,29 +101,42 @@
         .btn:hover {
             background-color: var(--accent-hover);
         }
-        .memory-list {
-            margin-top: 15px;
+        .vault-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
-        .memory-item {
+        .vault-item {
             background: #13151a;
             border: 1px solid var(--border-color);
-            padding: 12px;
+            padding: 15px;
             border-radius: 8px;
+        }
+        .vault-item h4 {
+            color: var(--accent-color);
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .badge-time {
+            background: rgba(197, 168, 128, 0.15);
+            color: var(--accent-color);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+        .vault-item p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+        .nav-links {
+            text-align: center;
+            margin-top: 25px;
             font-size: 0.85rem;
         }
-        .memory-item h4 {
-            color: var(--accent-color);
-            margin-bottom: 5px;
-        }
-        .back-links {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 0.9rem;
-        }
-        .back-links a {
+        .nav-links a {
             color: var(--accent-color);
             text-decoration: none;
             margin: 0 10px;
@@ -134,83 +147,97 @@
 
     <div class="container">
         <header>
-            <h1>Echosoul | لوحة التحكم</h1>
-            <span>خزينة الذاكرة المحلية</span>
+            <h1>Echosoul | الخزينة الزمنية</h1>
+            <span>إدارة الوصايا والذكريات</span>
         </header>
 
-        <!-- Memory Injection Card -->
+        <!-- Form Card -->
         <div class="card">
-            <h3>أضف قصة حياة أو نصيحة لإرثك</h3>
+            <h3>إضافة كبسولة زمنية أو وصية جديدة</h3>
             <div class="form-group">
-                <label>عنوان الذكرى أو الموقف</label>
-                <input type="text" id="memoryTitle" class="form-control" placeholder="مثال: درسي الأول في الصبر...">
+                <label>عنوان الكبسولة (مثال: رسالتي لعائلتي في المستقبل)</label>
+                <input type="text" id="vaultTitle" class="form-control" placeholder="اكتب العنوان هنا...">
             </div>
             <div class="form-group">
-                <label>التفاصيل والحكمة المستفادة</label>
-                <textarea id="memoryContent" class="form-control" placeholder="اكتب التفاصيل بروحك وأسلوبك..."></textarea>
+                <label>محتوى الوصية أو الرسالة</label>
+                <textarea id="vaultContent" class="form-control" placeholder="اكتب التفاصيل، النصائح، أو الكلمات التي تريد تركها..."></textarea>
             </div>
-            <button class="btn" onclick="saveMemory()">حفظ في الإرث الرقمي</button>
+            <div class="form-group">
+                <label>تاريخ الإفراج المجدول (لا تفتح قبل هذا التاريخ)</label>
+                <input type="date" id="vaultReleaseDate" class="form-control" value="2030-01-01">
+            </div>
+            <button class="btn" onclick="saveVaultItem()">قفل وإيداع في الخزينة الزمنية</button>
         </div>
 
-        <!-- Saved Memories View -->
+        <!-- Vault Items Display -->
         <div class="card">
-            <h3>الذكريات المحفوظة محلياً</h3>
-            <div class="memory-list" id="memoryList">
-                <p style="color: var(--text-muted); font-size: 0.85rem;">لا توجد ذكريات محفوظة حتى الآن.</p>
+            <h3>الكبسولات المُدخرة في خزينتك</h3>
+            <div class="vault-list" id="vaultList">
+                <p style="color: var(--text-muted); font-size: 0.85rem;">لا توجد كبسولات زمنية مسجلة حتى الآن.</p>
             </div>
         </div>
 
-        <div class="back-links">
+        <div class="nav-links">
             <a href="index.html">الرئيسية</a> | 
-            <a href="chat.html">المحادثة</a> | 
-            <a href="protocol.html">الأمان</a>
+            <a href="protocol.html">بروتوكول الأمان والأوصياء</a>
         </div>
     </div>
 
     <script>
-        // تحميل الذكريات المحفوظة عند فتح الصفحة
-        document.addEventListener('DOMContentLoaded', loadMemories);
+        document.addEventListener('DOMContentLoaded', loadVaultItems);
 
-        function saveMemory() {
-            const title = document.getElementById('memoryTitle').value.trim();
-            const content = document.getElementById('memoryContent').value.trim();
+        function saveVaultItem() {
+            const title = document.getElementById('vaultTitle').value.trim();
+            const content = document.getElementById('vaultContent').value.trim();
+            const releaseDate = document.getElementById('vaultReleaseDate').value;
 
-            if (!title || !content) {
-                alert('الرجاء تعبئة العنوان التفاصيل أولاً.');
+            if (!title || !content || !releaseDate) {
+                alert('الرجاء إكمال جميع الحقول وتحديد تاريخ الإفراج.');
                 return;
             }
 
-            const newMemory = { title, content, date: new Date().toLocaleDateString('ar-SA') };
-            
-            let memories = JSON.parse(localStorage.getItem('echosoul_memories') || '[]');
-            memories.push(newMemory);
-            localStorage.setItem('echosoul_memories', JSON.stringify(memories));
+            const newItem = {
+                title,
+                content,
+                releaseDate,
+                createdDate: new Date().toLocaleDateString('ar-SA')
+            };
 
-            document.getElementById('memoryTitle').value = '';
-            document.getElementById('memoryContent').value = '';
+            let vaultItems = JSON.parse(localStorage.getItem('echosoul_vault') || '[]');
+            vaultItems.push(newItem);
+            localStorage.setItem('echosoul_vault', JSON.stringify(vaultItems));
 
-            loadMemories();
-            alert('تم حفظ الذكرى بنجاح في ذاكرتك المحلية!');
+            // تفريغ الحقول
+            document.getElementById('vaultTitle').value = '';
+            document.getElementById('vaultContent').value = '';
+            document.getElementById('vaultReleaseDate').value = '2030-01-01';
+
+            loadVaultItems();
+            alert('تم قفل الإيداع وإضافته للخزينة الزمنية بنجاح!');
         }
 
-        function loadMemories() {
-            const memoryList = document.getElementById('memoryList');
-            let memories = JSON.parse(localStorage.getItem('echosoul_memories') || '[]');
+        function loadVaultItems() {
+            const vaultList = document.getElementById('vaultList');
+            let vaultItems = JSON.parse(localStorage.getItem('echosoul_vault') || '[]');
 
-            if (memories.length === 0) {
-                memoryList.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">لا توجد ذكريات محفوظة حتى الآن.</p>';
+            if (vaultItems.length === 0) {
+                vaultList.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">لا توجد كبسولات زمنية مسجلة حتى الآن.</p>';
                 return;
             }
 
-            memoryList.innerHTML = '';
-            memories.forEach((mem, index) => {
-                const item = document.createElement('div');
-                item.className = 'memory-item';
-                item.innerHTML = `
-                    <h4>${index + 1}. ${mem.title} <span style="font-size:0.75rem; color:var(--text-muted); float:left;">${mem.date}</span></h4>
-                    <p style="color: var(--text-main);">${mem.content}</p>
+            vaultList.innerHTML = '';
+            vaultItems.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'vault-item';
+                div.innerHTML = `
+                    <h4>
+                        <span>${index + 1}. ${item.title}</span>
+                        <span class="badge-time">تاريخ الفتح: ${item.releaseDate}</span>
+                    </h4>
+                    <p><strong>المحتوى:</strong> ${item.content}</p>
+                    <p style="font-size: 0.75rem; color: #6b7280; margin-top: 8px;">تاريخ الإنشاء: ${item.createdDate}</p>
                 `;
-                memoryList.appendChild(item);
+                vaultList.appendChild(div);
             });
         }
     </script>
