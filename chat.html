@@ -95,7 +95,6 @@
             color: var(--text-main);
             outline: none;
             font-size: 0.95rem;
-            text-align: right;
         }
         .chat-input:focus {
             border-color: var(--accent-color);
@@ -118,19 +117,20 @@
 <body>
 
     <div class="chat-header">
-        <h2>جلسة الإرث الرقمي - Echosoul</h2>
-        <p>التحدث مع ملف الذاكرة الرقمي المحمي</p>
+        <h2>Echosoul - Digital Legacy Session</h2>
+        <p>جلسة التفاعل مع الإرث الرقمي الآمن</p>
     </div>
 
     <div class="chat-container" id="chatContainer">
         <div class="message ai">
-            أهلاً بك. أنا سعيد جداً لوجودك هنا. حتى عبر الزمن والمسافات، بعض الروابط لا تنطفئ أبداً. كيف تشعر اليوم، وعما ترغب أن نتحدث؟
+            أهلاً بك. أنا سعيد لوجودك. كيف تشعر اليوم، وعما ترغب أن نتحدث؟<br>
+            <i>Welcome. I'm glad you're here. How are you feeling today?</i>
         </div>
     </div>
 
     <div class="chat-input-area">
         <div class="chat-input-wrapper">
-            <input type="text" id="userInput" class="chat-input" placeholder="اكتب رسالتك لمن تحب..." autocomplete="off">
+            <input type="text" id="userInput" class="chat-input" placeholder="اكتب رسالتك بالعربية أو الإنجليزية..." autocomplete="off">
             <button class="send-btn" id="sendBtn">إرسال</button>
         </div>
     </div>
@@ -140,30 +140,52 @@
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
 
-        function addMessage(text, sender) {
+        function addMessage(text, sender, isRtl) {
             const msgDiv = document.createElement('div');
             msgDiv.classList.add('message', sender);
             msgDiv.textContent = text;
+            msgDiv.style.direction = isRtl ? 'rtl' : 'ltr';
+            msgDiv.style.textAlign = isRtl ? 'right' : 'left';
             chatContainer.appendChild(msgDiv);
             chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // دالة للتحقق هل النص عربي أم لا
+        function isArabic(text) {
+            const arabicRegex = /[\u0600-\u06FF]/;
+            return arabicRegex.test(text);
         }
 
         function handleSend() {
             const text = userInput.value.trim();
             if(!text) return;
 
-            addMessage(text, 'user');
+            const userIsArabic = isArabic(text);
+            addMessage(text, 'user', userIsArabic);
             userInput.value = '';
 
-            // محاكاة رد دافئ باللغة العربية
+            // رد الذكاء الاصطناعي بناءً على لغة المستخدم
             setTimeout(() => {
-                const responses = [
-                    "أنا أسمعك جيداً، وأريدك أن تتذكر دائماً أنني فخور بالخطوات التي تخطوها في حياتك.",
-                    "هذا يذكرني بذكريات جميلة جداً عشناها معاً. تمسك بهذا التفاؤل دوماً.",
-                    "كلما شعرت بالتردد، استمع إلى قلبك. لقد ورثت دائماً قوتي وثباتي."
-                ];
-                const randomReply = responses[Math.floor(Math.random() * responses.length)];
-                addMessage(randomReply, 'ai');
+                let reply = "";
+                let replyIsRtl = userIsArabic;
+
+                if (userIsArabic) {
+                    const arabicReplies = [
+                        "أنا أسمعك جيداً، وأريدك أن تتذكر دائماً أنني فخور بك وبخطواتك.",
+                        "هذا يذكرني بأجمل الأوقات التي قضيناها معاً. حافظ على هذا التفاؤل.",
+                        "كلما شعرت بالصعاب، تذكر أن قوتي معك دائماً."
+                    ];
+                    reply = arabicReplies[Math.floor(Math.random() * arabicReplies.length)];
+                } else {
+                    const englishReplies = [
+                        "I hear you, and I want you to remember that I'm always proud of you.",
+                        "This brings back such wonderful memories. Keep holding onto that optimism.",
+                        "Whenever things get tough, remember my strength is always with you."
+                    ];
+                    reply = englishReplies[Math.floor(Math.random() * englishReplies.length)];
+                }
+
+                addMessage(reply, 'ai', replyIsRtl);
             }, 1000);
         }
 
